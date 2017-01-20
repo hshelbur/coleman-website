@@ -1,0 +1,22 @@
+{
+  "name": "coleman-website",
+  "version": "1.0.0",
+  "description": "sales platform",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hshelbur/coleman-website.git"
+  },
+  "keywords": [
+    "npm"
+  ],
+  "author": "Howard Shelburne",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/hshelbur/coleman-website/issues"
+  },
+  "homepage": "https://github.com/hshelbur/coleman-website#readme"
+}
