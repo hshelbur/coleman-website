@@ -63,7 +63,7 @@ var CreateCategoryForm = function (_React$Component) {
 		value: function render() {
 			var _this2 = this;
 
-			var category = { title: this.state.category };
+			var category = { title: this.state.title };
 
 			return React.createElement(
 				"div",
@@ -72,7 +72,7 @@ var CreateCategoryForm = function (_React$Component) {
 					"form",
 					{ className: "CategoryForm" },
 					React.createElement("input", { type: "text", className: "form-control", placeholder: "Category", value: this.state.title, onChange: function onChange(e) {
-							return _this2.setState({ category: e.target.value });
+							return _this2.setState({ title: e.target.value });
 						} }),
 					React.createElement(Button, { onClick: function onClick() {
 							return _this2.props.addNewCategory(category);
@@ -92,6 +92,7 @@ var CategoryName = function CategoryName(props) {
 		React.createElement(
 			"p",
 			null,
+			"- ",
 			props.title
 		)
 	);
@@ -129,9 +130,38 @@ var CategoryList = function (_React$Component2) {
 				"div",
 				{ className: "col-md-2 col-md-offset-1 pull-left" },
 				React.createElement(CreateCategoryForm, { addNewCategory: this.addNewCategory }),
-				categories.map(function (category) {
-					return React.createElement(CategoryName, { title: category.title });
-				})
+				React.createElement(
+					"table",
+					{ className: "table table-bordered table-hover" },
+					React.createElement(
+						"thead",
+						null,
+						React.createElement(
+							"tr",
+							null,
+							React.createElement(
+								"th",
+								null,
+								"Categories"
+							)
+						)
+					),
+					React.createElement(
+						"tbody",
+						null,
+						categories.map(function (category) {
+							return React.createElement(
+								"tr",
+								null,
+								React.createElement(
+									"td",
+									null,
+									React.createElement(CategoryName, { title: category.title })
+								)
+							);
+						})
+					)
+				)
 			);
 		}
 	}]);

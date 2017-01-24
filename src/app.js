@@ -29,11 +29,11 @@ class CreateCategoryForm extends React.Component {
 	}
 
 	render(){
-		const category={title: this.state.category}
+		const category={title: this.state.title}
 
 		return <div>
 			<form className="CategoryForm">
-				<input type='text' className='form-control' placeholder='Category' value={this.state.title} onChange={e => this.setState({category : e.target.value})} />
+				<input type='text' className='form-control' placeholder='Category' value={this.state.title} onChange={e => this.setState({title : e.target.value})} />
 				<Button onClick={() => this.props.addNewCategory(category)} label='Add Category' />
 			</form>
 		</div>
@@ -42,7 +42,7 @@ class CreateCategoryForm extends React.Component {
 
 const CategoryName = props =>
 	<div>
-		<p>{props.title}</p>
+		<p>- {props.title}</p>
 	</div>
 
 class CategoryList extends React.Component {
@@ -65,13 +65,23 @@ class CategoryList extends React.Component {
 
 		return <div className="col-md-2 col-md-offset-1 pull-left">
 			<CreateCategoryForm addNewCategory={this.addNewCategory}/>
-			{categories.map(category =>
-				<CategoryName title={category.title}/>
-			)}
+			<table className='table table-bordered table-hover'>	
+				<thead>
+					<tr>
+						<th>Categories</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					{categories.map(category =>
+						<tr><td><CategoryName title={category.title}/></td></tr>
+						)}
+					
+				</tbody>
+			</table>
 		</div>
 	}
 }
-
 
 ReactDOM.render(
 	<div>	
