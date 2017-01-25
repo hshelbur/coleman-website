@@ -25,7 +25,7 @@ Button.propTypes = {
 class CreateCategoryForm extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {title: ''};
+		this.state = {title: '', items: []};
 	}
 
 	render(){
@@ -40,10 +40,63 @@ class CreateCategoryForm extends React.Component {
 	}
 }
 
-const CategoryName = props =>
+
+class CreateNewItem extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {name: '', price: ''}
+	}
+
+	render(){
+		const item={name: this.state.name, price: this.state.price}
+
+		return <div>
+			<form className="ItemForm">
+				<input type='text' placeholder='Item Name' value={this.state.name} onChange={e => this.setState({name : e.target.value})} />
+				<input type='number' min='0.00' step='0.01' placeholder='Item Price' value={this.state.price} onChange={e => this.setState({price : e.target.value})} />
+				<Button onClick={() => this.props.addNewItem(item)} label='Add Item' />
+			</form>
+		</div>
+	}
+}
+
+const Category = props =>
 	<div>
 		<p>- {props.title}</p>
+		<CreateNewItem />
 	</div>
+
+
+class CategoryItems extends React.Component {
+	constructor (){
+		super();
+		this.state = {
+			itemsList: []
+		};
+		this.addItem = this.addItem.bind(this);
+		this.removeItem = this.removeItem.bind(this);
+	}
+
+	addItem(item){
+		var itemsList = this.state.itemsList.concat(item.id);
+		this.setState({itemsList})
+	}
+
+	removeItem(item){
+		var itemsList = this.state.itemsList.slice();
+		itemsList.splice(itemsList.indexOf(item.id), 1)
+		this.setState({itemsList})
+	}
+
+	render(){
+		const {category} = this.props
+		const {itemsList} = this.state
+
+
+
+	}
+
+}
 
 class CategoryList extends React.Component {
 	constructor () {
@@ -65,7 +118,7 @@ class CategoryList extends React.Component {
 
 		return <div className="col-md-2 col-md-offset-1 pull-left">
 			<CreateCategoryForm addNewCategory={this.addNewCategory}/>
-			<table className='table table-bordered table-hover'>	
+			<table className='table table-border table-hover'>	
 				<thead>
 					<tr>
 						<th>Categories</th>
@@ -74,7 +127,7 @@ class CategoryList extends React.Component {
 				<tbody>
 					
 					{categories.map(category =>
-						<tr><td><CategoryName title={category.title}/></td></tr>
+						<tr><Category title={category.title}/></tr>
 						)}
 					
 				</tbody>

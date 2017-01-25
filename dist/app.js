@@ -54,7 +54,7 @@ var CreateCategoryForm = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (CreateCategoryForm.__proto__ || Object.getPrototypeOf(CreateCategoryForm)).call(this, props));
 
-		_this.state = { title: '' };
+		_this.state = { title: '', items: [] };
 		return _this;
 	}
 
@@ -85,7 +85,49 @@ var CreateCategoryForm = function (_React$Component) {
 	return CreateCategoryForm;
 }(React.Component);
 
-var CategoryName = function CategoryName(props) {
+var CreateNewItem = function (_React$Component2) {
+	_inherits(CreateNewItem, _React$Component2);
+
+	function CreateNewItem(props) {
+		_classCallCheck(this, CreateNewItem);
+
+		var _this3 = _possibleConstructorReturn(this, (CreateNewItem.__proto__ || Object.getPrototypeOf(CreateNewItem)).call(this, props));
+
+		_this3.state = { name: '', price: '' };
+		return _this3;
+	}
+
+	_createClass(CreateNewItem, [{
+		key: "render",
+		value: function render() {
+			var _this4 = this;
+
+			var item = { name: this.state.name, price: this.state.price };
+
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"form",
+					{ className: "ItemForm" },
+					React.createElement("input", { type: "text", placeholder: "Item Name", value: this.state.name, onChange: function onChange(e) {
+							return _this4.setState({ name: e.target.value });
+						} }),
+					React.createElement("input", { type: "number", min: "0.00", step: "0.01", placeholder: "Item Price", value: this.state.price, onChange: function onChange(e) {
+							return _this4.setState({ price: e.target.value });
+						} }),
+					React.createElement(Button, { onClick: function onClick() {
+							return _this4.props.addNewItem(item);
+						}, label: "Add Item" })
+				)
+			);
+		}
+	}]);
+
+	return CreateNewItem;
+}(React.Component);
+
+var Category = function Category(props) {
 	return React.createElement(
 		"div",
 		null,
@@ -94,22 +136,63 @@ var CategoryName = function CategoryName(props) {
 			null,
 			"- ",
 			props.title
-		)
+		),
+		React.createElement(CreateNewItem, null)
 	);
 };
 
-var CategoryList = function (_React$Component2) {
-	_inherits(CategoryList, _React$Component2);
+var CategoryItems = function (_React$Component3) {
+	_inherits(CategoryItems, _React$Component3);
+
+	function CategoryItems() {
+		_classCallCheck(this, CategoryItems);
+
+		var _this5 = _possibleConstructorReturn(this, (CategoryItems.__proto__ || Object.getPrototypeOf(CategoryItems)).call(this));
+
+		_this5.state = {
+			itemsList: []
+		};
+		_this5.addItem = _this5.addItem.bind(_this5);
+		_this5.removeItem = _this5.removeItem.bind(_this5);
+		return _this5;
+	}
+
+	_createClass(CategoryItems, [{
+		key: "addItem",
+		value: function addItem(item) {
+			var itemsList = this.state.itemsList.concat(item.id);
+			this.setState({ itemsList: itemsList });
+		}
+	}, {
+		key: "removeItem",
+		value: function removeItem(item) {
+			var itemsList = this.state.itemsList.slice();
+			itemsList.splice(itemsList.indexOf(item.id), 1);
+			this.setState({ itemsList: itemsList });
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var category = this.props.category;
+			var itemsList = this.state.itemsList;
+		}
+	}]);
+
+	return CategoryItems;
+}(React.Component);
+
+var CategoryList = function (_React$Component4) {
+	_inherits(CategoryList, _React$Component4);
 
 	function CategoryList() {
 		_classCallCheck(this, CategoryList);
 
-		var _this3 = _possibleConstructorReturn(this, (CategoryList.__proto__ || Object.getPrototypeOf(CategoryList)).call(this));
+		var _this6 = _possibleConstructorReturn(this, (CategoryList.__proto__ || Object.getPrototypeOf(CategoryList)).call(this));
 
-		_this3.state = { categories: [] };
-		_this3.count = 0;
-		_this3.addNewCategory = _this3.addNewCategory.bind(_this3);
-		return _this3;
+		_this6.state = { categories: [] };
+		_this6.count = 0;
+		_this6.addNewCategory = _this6.addNewCategory.bind(_this6);
+		return _this6;
 	}
 
 	_createClass(CategoryList, [{
@@ -132,7 +215,7 @@ var CategoryList = function (_React$Component2) {
 				React.createElement(CreateCategoryForm, { addNewCategory: this.addNewCategory }),
 				React.createElement(
 					"table",
-					{ className: "table table-bordered table-hover" },
+					{ className: "table table-border table-hover" },
 					React.createElement(
 						"thead",
 						null,
@@ -153,11 +236,7 @@ var CategoryList = function (_React$Component2) {
 							return React.createElement(
 								"tr",
 								null,
-								React.createElement(
-									"td",
-									null,
-									React.createElement(CategoryName, { title: category.title })
-								)
+								React.createElement(Category, { title: category.title })
 							);
 						})
 					)
